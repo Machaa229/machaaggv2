@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Machaa GG</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #0f0f23 100%);
+            margin: 0;
+            padding: 20px;
+            color: #e0e0e0;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 80%, rgba(74, 144, 226, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(74, 144, 226, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            text-align: center;
+            color: #4a90e2;
+            font-size: 3.5em;
+            font-weight: 700;
+            margin: 20px 0;
+            text-shadow: 0 2px 4px rgba(74, 144, 226, 0.3);
+            animation: fadeInUp 1s ease-out;
+            transition: transform 0.3s ease;
+        }
+        h1:hover {
+            transform: scale(1.02);
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .subtitle {
+            text-align: center;
+            font-size: 1.1em;
+            color: #b8b8b8;
+            margin: 0 0 40px 0;
+            font-style: italic;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+        .buttons-container {
+            text-align: center;
+            margin: 40px 0;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+        .gg-button {
+            display: inline-block;
+            padding: 18px 35px;
+            background: linear-gradient(45deg, #4a90e2, #357abd);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3em;
+            font-weight: 400;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 6px 12px rgba(74, 144, 226, 0.3);
+            margin-bottom: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+        .gg-button::before {
+            content: '\f1b3'; /* YouTube icon */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            margin-right: 10px;
+        }
+        .gg-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 16px rgba(74, 144, 226, 0.4);
+        }
+        .tool-button {
+            display: inline-block;
+            padding: 18px 35px;
+            background: linear-gradient(45deg, #4a90e2, #357abd);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3em;
+            font-weight: 400;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 6px 12px rgba(74, 144, 226, 0.3);
+            margin-bottom: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+        .tool-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 16px rgba(74, 144, 226, 0.4);
+        }
+        .telegram-link {
+            display: inline-block;
+            padding: 12px 25px;
+            background: rgba(255, 255, 255, 0.15);
+            color: #4a90e2;
+            text-decoration: none;
+            border-radius: 12px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1em;
+            font-weight: 400;
+            transition: background 0.3s, color 0.3s, transform 0.3s;
+            box-shadow: 0 4px 8px rgba(74, 144, 226, 0.2);
+        }
+        .telegram-link::before {
+            content: '\f2c6'; /* Telegram icon */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            margin-right: 10px;
+        }
+        .telegram-link:hover {
+            background: rgba(74, 144, 226, 0.25);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+        .menu-toggle {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            cursor: pointer;
+            font-size: 32px;
+            color: #4a90e2;
+            transition: color 0.3s, transform 0.3s;
+            z-index: 1000;
+            animation: fadeIn 1s ease-out;
+        }
+        .menu-toggle:hover {
+            color: #357abd;
+            transform: scale(1.1);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .contact-menu {
+            display: none;
+            position: absolute;
+            top: 70px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(74, 144, 226, 0.3);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(12px);
+            transition: opacity 0.3s, transform 0.3s;
+            text-align: center;
+            min-width: 150px;
+        }
+        .contact-menu span {
+            color: #4a90e2;
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.3s;
+            display: block;
+            padding: 10px;
+            font-size: 1.1em;
+        }
+        .contact-menu span:hover {
+            color: #357abd;
+        }
+        .footer {
+            margin-top: auto;
+            text-align: center;
+            padding: 20px;
+            color: #b8b8b8;
+            font-size: 0.9em;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5em; }
+            .gg-button, .tool-button, .telegram-link { display: block; margin: 10px auto; }
+        }
+    </style>
+</head>
+<body>
+    <div class="menu-toggle" onclick="toggleContactMenu()">...</div>
+    <div class="contact-menu" id="contactMenu">
+        <span onclick="showComingSoon()">İletişim</span>
+    </div>
+    <h1>Machaa GG</h1>
+    <p class="subtitle">Bu web sitesi şu an test aşamasındadır yakında daha fazla özellik gelecektir</p>
+    <div class="buttons-container">
+        <button class="gg-button" onclick="showInstallation()">GG Kurulumu</button>
+        <button class="tool-button" onclick="showToolSharing()">Araç Paylaşımı</button>
+        <a href="https://t.me/machaahsp" target="_blank" class="telegram-link">Telegram Kanalı</a>
+    </div>
+    <footer class="footer">
+        <p>&copy; 2025 Machaa GG. Tüm hakları saklıdır. | <i class="fas fa-heart" style="color: #4a90e2;"></i> xAI ile geliştirildi</p>
+    </footer>
+
+    <script>
+        function toggleContactMenu() {
+            const menu = document.getElementById('contactMenu');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function showComingSoon() {
+            alert('Yakında gelecek :)');
+            document.getElementById('contactMenu').style.display = 'none';
+        }
+
+        function showInstallation() {
+            window.open('https://youtu.be/tiS_YwRxrJk?si=W_NX3Vf5JDnYCks2', '_blank');
+        }
+
+        function showToolSharing() {
+            window.open('arac.html', '_blank');
+        }
+
+        // Particle effect (basit JS ile)
+        function createParticles() {
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.style.position = 'fixed';
+                particle.style.width = '2px';
+                particle.style.height = '2px';
+                particle.style.background = 'rgba(74, 144, 226, 0.5)';
+                particle.style.borderRadius = '50%';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animation = `float ${Math.random() * 3 + 2}s infinite ease-in-out`;
+                particle.style.pointerEvents = 'none';
+                particle.style.zIndex = '-1';
+                document.body.appendChild(particle);
+            }
+        }
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes float {
+                0%, 100% { transform: translateY(0px); }
+                50% { transform: translateY(-20px); }
+            }
+        `;
+        document.head.appendChild(style);
+        createParticles();
+    </script>
+</body>
+</html>

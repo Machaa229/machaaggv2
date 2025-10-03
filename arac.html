@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Araç Paylaşımı - Machaa GG</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #0f0f23 100%);
+            margin: 0;
+            padding: 20px;
+            color: #e0e0e0;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 80%, rgba(74, 144, 226, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(74, 144, 226, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            text-align: center;
+            color: #4a90e2;
+            font-size: 3em;
+            font-weight: 700;
+            margin: 20px 0;
+            text-shadow: 0 2px 4px rgba(74, 144, 226, 0.3);
+            animation: fadeInUp 1s ease-out;
+            transition: transform 0.3s ease;
+        }
+        h1:hover {
+            transform: scale(1.02);
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .subtitle {
+            text-align: center;
+            font-size: 1.1em;
+            color: #b8b8b8;
+            margin: 0 0 40px 0;
+            font-style: italic;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+        .sort-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+        .sort-button {
+            padding: 10px 20px;
+            background: linear-gradient(45deg, #4a90e2, #357abd);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1em;
+            font-weight: 400;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 8px rgba(74, 144, 226, 0.3);
+        }
+        .sort-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(74, 144, 226, 0.4);
+        }
+        .sort-button.active {
+            background: linear-gradient(45deg, #357abd, #4a90e2);
+            box-shadow: 0 6px 12px rgba(74, 144, 226, 0.5);
+        }
+        .refresh-button {
+            padding: 10px 20px;
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1em;
+            font-weight: 400;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+        }
+        .refresh-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(40, 167, 69, 0.4);
+        }
+        .refresh-button::before {
+            content: '\f021'; /* Refresh icon */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            margin-right: 8px;
+        }
+        .upload-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 12px 25px;
+            background: linear-gradient(45deg, #4a90e2, #357abd);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1em;
+            font-weight: 400;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 6px 12px rgba(74, 144, 226, 0.3);
+            animation: fadeIn 1s ease-out;
+        }
+        .upload-button::before {
+            content: '\f030'; /* Upload icon */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            margin-right: 8px;
+        }
+        .upload-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 16px rgba(74, 144, 226, 0.4);
+        }
+        .auth-section {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            animation: fadeIn 1s ease-out;
+        }
+        .auth-button {
+            background: rgba(255, 255, 255, 0.15);
+            color: #4a90e2;
+            border: 1px solid rgba(74, 144, 226, 0.3);
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9em;
+            transition: background 0.3s, color 0.3s;
+            margin-right: 10px;
+        }
+        .auth-button:hover {
+            background: rgba(74, 144, 226, 0.25);
+            color: #fff;
+        }
+        .username-display {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 15px;
+            border-radius: 8px;
+            color: #4a90e2;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1em;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            display: inline-block;
+        }
+        .logout-button {
+            background: rgba(255, 99, 71, 0.2);
+            color: #ff6b6b;
+            border: 1px solid rgba(255, 99, 71, 0.3);
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9em;
+            transition: background 0.3s, color 0.3s;
+        }
+        .logout-button:hover {
+            background: rgba(255, 99, 71, 0.4);
+            color: #fff;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .feed {
+            width: 100%;
+            max-width: 600px;
+            margin: 60px 0;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+        .post {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        .post img {
+            width: 100%;
+            border-radius: 8px;
+            max-height: 300px;
+            object-fit: cover;
+        }
+        .post-caption {
+            margin: 10px 0;
+            font-size: 1em;
+            color: #e0e0e0;
+        }
+        .post-date {
+            color: #b8b8b8;
+            font-size: 0.9em;
+            margin: 5px 0;
+            font-style: italic;
+        }
+        .post-sale {
+            color: #4a90e2;
+            font-weight: bold;
+        }
+        .post-no-sale {
+            color: #b8b8b8;
+        }
+        .post-actions {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+        .like-button {
+            background: none;
+            border: none;
+            color: #b8b8b8;
+            cursor: pointer;
+            font-size: 1.2em;
+            margin-right: 10px;
+            transition: color 0.3s;
+        }
+        .like-button:hover, .liked {
+            color: #ff6b6b;
+        }
+        .like-count {
+            color: #b8b8b8;
+            font-size: 0.9em;
+        }
+        .comments-section {
+            margin-top: 10px;
+        }
+        .comment {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px;
+            border-radius: 6px;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+        }
+        .comment-username {
+            font-weight: bold;
+            color: #4a90e2;
+        }
+        .comment-time {
+            color: #888;
+            font-size: 0.8em;
+            margin-left: 10px;
+        }
+        .comment-input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid rgba(74, 144, 226, 0.3);
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #e0e0e0;
+            font-family: 'Roboto', sans-serif;
+            margin-top: 5px;
+        }
+        .post-username {
+            color: #4a90e2;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s;
+        }
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f0f23 100%);
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(12px);
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover {
+            color: #4a90e2;
+        }
+        .google-button {
+            width: 100%;
+            padding: 12px;
+            background: #4285f4;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1em;
+            transition: transform 0.3s;
+        }
+        .google-button:hover {
+            transform: translateY(-2px);
+        }
+        .google-button::before {
+            content: none;
+        }
+        .upload-form input[type="file"],
+        .upload-form textarea,
+        .upload-form label {
+            width: 100%;
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid rgba(74, 144, 226, 0.3);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #e0e0e0;
+            font-family: 'Roboto', sans-serif;
+        }
+        .upload-form textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        .upload-form input[type="checkbox"] {
+            width: auto;
+            margin-right: 10px;
+        }
+        .upload-form button {
+            padding: 12px 25px;
+            background: linear-gradient(45deg, #4a90e2, #357abd);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1em;
+            transition: transform 0.3s;
+        }
+        .upload-form button:hover {
+            transform: translateY(-2px);
+        }
+        .footer {
+            margin-top: auto;
+            text-align: center;
+            padding: 20px;
+            color: #b8b8b8;
+            font-size: 0.9em;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5em; }
+            .upload-button { top: 10px; right: 10px; padding: 10px 20px; font-size: 1em; }
+            .sort-buttons { flex-direction: column; align-items: center; }
+            .auth-section { top: 10px; left: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-section" id="authSection">
+        <button class="auth-button" onclick="openAuthModal()">Giriş Yap</button>
+        <div id="usernameDisplay" style="display: none;"></div>
+        <button class="logout-button" id="logoutButton" onclick="logoutUser()" style="display: none;">Çıkış</button>
+    </div>
+    <button class="upload-button" onclick="openUploadModal()">En İyi En Gerçekçi Aracını Paylaş</button>
+    <h1>Araç Paylaşımı</h1>
+    <p class="subtitle">En sevdiğin aracını paylaş ve topluluğa göster! Satılık mı değil mi belirtmeyi unutma.</p>
+    <div class="sort-buttons">
+        <button class="sort-button active" onclick="sortPosts('popular')">En Popüler</button>
+        <button class="sort-button" onclick="sortPosts('date')">Yeniden Eskiye</button>
+        <button class="refresh-button" onclick="loadPosts(currentSort)">Yenile</button>
+    </div>
+    <div class="feed" id="feed">
+        <!-- Posts will be loaded here -->
+    </div>
+    <footer class="footer">
+        <p>&copy; 2025 Machaa GG. Tüm hakları saklıdır. | <i class="fas fa-heart" style="color: #4a90e2;"></i> xAI ile geliştirildi</p>
+    </footer>
+
+    <!-- Auth Modal -->
+    <div id="authModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAuthModal()">&times;</span>
+            <h2 style="color: #4a90e2; text-align: center; font-family: 'Orbitron', sans-serif;">Giriş Yap</h2>
+            <p style="text-align: center; color: #b8b8b8;">Gmail adresinizle hızlıca giriş yapın.</p>
+            <input type="email" id="emailInput" placeholder="Gmail adresinizi girin..." style="width: 100%; padding: 12px; border: 1px solid rgba(74, 144, 226, 0.3); border-radius: 8px; background: rgba(255, 255, 255, 0.1); color: #e0e0e0; font-family: 'Roboto', sans-serif; margin-bottom: 15px;">
+            <button class="google-button" onclick="manualSignIn()">Devam Et</button>
+        </div>
+    </div>
+
+    <!-- Upload Modal -->
+    <div id="uploadModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeUploadModal()">&times;</span>
+            <h2 style="color: #4a90e2; text-align: center; font-family: 'Orbitron', sans-serif;">Araç Paylaş</h2>
+            <form class="upload-form" id="uploadForm">
+                <label for="carImage">Araç Fotoğrafı:</label>
+                <input type="file" id="carImage" accept="image/*" required>
+                
+                <label for="carDescription">Araç Hakkında:</label>
+                <textarea id="carDescription" placeholder="Aracın hakkında bilgi yaz... (model, yıl, özellikler vb.)" required></textarea>
+                
+                <label>
+                    <input type="checkbox" id="forSale"> Bu araç satılıktır.
+                </label>
+                
+                <button type="submit">Paylaş</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Firebase SDK'ları -->
+    <script type="module">
+        // Firebase'i import et
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js';
+        import { getFirestore, collection, addDoc, getDocs, updateDoc, doc, arrayUnion, Timestamp, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js';
+
+        // Firebase konfigürasyonunu buraya ekle (Firebase Console'dan al)
+        const firebaseConfig = {
+            apiKey: "AIzaSyBYZGpWCYxMQqXrxYERZFfO-mAbGKDAaN8",
+            authDomain: "machaagg-73bb5.firebaseapp.com",
+            projectId: "machaagg-73bb5",
+            storageBucket: "machaagg-73bb5.firebasestorage.app",
+            messagingSenderId: "143234035871",
+            appId: "1:143234035871:web:cbf7e4cb927084c6eb72aa"
+        };
+
+        // Firebase'i başlat
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        let currentSort = 'popular'; // Varsayılan sıralama
+        let currentUser = null;
+
+        // Kullanıcıyı ayarla
+        async function setCurrentUser(email) {
+            currentUser = { uid: email, email: email };
+            const userRef = doc(db, 'users', email);
+            let userDoc = await getDoc(userRef);
+            let userData;
+            if (!userDoc.exists()) {
+                const username = email.substring(0, 4).toLowerCase() + '.mchagg';
+                await setDoc(userRef, {
+                    username: username,
+                    email: email,
+                    createdAt: Timestamp.now()
+                });
+                userData = { username, email, createdAt: Timestamp.now() };
+            } else {
+                userData = userDoc.data();
+            }
+            // Display güncelle
+            document.getElementById('usernameDisplay').textContent = `Hoş geldin, ${userData.username}!`;
+            document.getElementById('usernameDisplay').style.display = 'inline-block';
+            document.getElementById('logoutButton').style.display = 'inline-block';
+            document.getElementById('authSection').querySelector('.auth-button').style.display = 'none';
+            loadPosts(currentSort);
+        }
+
+        // Manuel giriş
+        window.manualSignIn = async function() {
+            const emailInput = document.getElementById('emailInput');
+            const email = emailInput.value.trim();
+            if (!email || !/@gmail\.com$/.test(email)) {
+                alert('Lütfen geçerli bir Gmail adresi girin.');
+                return;
+            }
+            try {
+                await setCurrentUser(email);
+                localStorage.setItem('userEmail', email);
+                closeAuthModal();
+                emailInput.value = '';
+            } catch (error) {
+                console.error('Giriş hatası:', error);
+                alert('Giriş hatası: ' + error.message);
+            }
+        };
+
+        // Auth modal aç
+        window.openAuthModal = function() {
+            document.getElementById('authModal').style.display = 'block';
+        }
+
+        // Auth modal kapat
+        window.closeAuthModal = function() {
+            document.getElementById('authModal').style.display = 'none';
+        }
+
+        // Çıkış
+        window.logoutUser = function() {
+            localStorage.removeItem('userEmail');
+            currentUser = null;
+            document.getElementById('usernameDisplay').style.display = 'none';
+            document.getElementById('logoutButton').style.display = 'none';
+            document.getElementById('authSection').querySelector('.auth-button').style.display = 'inline-block';
+            document.getElementById('feed').innerHTML = '';
+        }
+
+        // Kaydedilmiş kullanıcıyı yükle
+        const savedEmail = localStorage.getItem('userEmail');
+        if (savedEmail && /@gmail\.com$/.test(savedEmail)) {
+            setCurrentUser(savedEmail).catch(console.error);
+        }
+
+        // Postları yükle (Firestore'dan)
+        async function loadPosts(sortBy = 'popular') {
+            if (!currentUser) return;
+            try {
+                const querySnapshot = await getDocs(collection(db, 'carPosts'));
+                const posts = [];
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    data.id = doc.id;
+                    data.likeCount = data.likes ? data.likes.length : 0;
+                    posts.push(data);
+                });
+                // Sıralama uygula
+                if (sortBy === 'popular') {
+                    posts.sort((a, b) => {
+                        const likesA = a.likeCount;
+                        const likesB = b.likeCount;
+                        if (likesA !== likesB) {
+                            return likesB - likesA; // Beğeni azalan
+                        } else {
+                            return (b.timestamp?.toMillis() || 0) - (a.timestamp?.toMillis() || 0); // Timestamp azalan
+                        }
+                    });
+                } else {
+                    posts.sort((a, b) => (b.timestamp?.toMillis() || 0) - (a.timestamp?.toMillis() || 0));
+                }
+                const feed = document.getElementById('feed');
+                feed.innerHTML = '';
+                for (const post of posts) {
+                    const postDiv = document.createElement('div');
+                    postDiv.className = 'post';
+                    postDiv.id = `post-${post.id}`;
+                    const timestamp = post.timestamp ? post.timestamp.toDate().toLocaleString('tr-TR') : new Date().toLocaleString('tr-TR');
+                    const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
+                    const username = userDoc.exists() ? userDoc.data().username : 'Anonim';
+                    postDiv.innerHTML = `
+                        <div class="post-username">Paylaşan: ${post.username || 'Anonim'}</div>
+                        <img src="${post.image}" alt="Araç Fotoğrafı" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMzU3YWJkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5Gb3RvZ3JhZiBZZWtpbm1lZGk8L3RleHQ+PC9zdmc+'">
+                        <p class="post-caption">${post.description}</p>
+                        <p class="post-date">Paylaşım Tarihi: ${timestamp}</p>
+                        <p class="${post.forSale ? 'post-sale' : 'post-no-sale'}">${post.forSale ? '🟢 Satılıktır' : '🔴 Satılık Değil'}</p>
+                        <div class="post-actions">
+                            <button class="like-button" onclick="toggleLike('${post.id}')" id="like-${post.id}">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                            <span class="like-count" id="like-count-${post.id}">${post.likeCount} Beğeni</span>
+                        </div>
+                        <div class="comments-section">
+                            <div id="comments-${post.id}">
+                                ${post.comments ? post.comments.map(comment => `
+                                    <div class="comment">
+                                        <span class="comment-username">${comment.username}:</span> ${comment.text} <span class="comment-time">(${comment.timestamp ? comment.timestamp.toDate().toLocaleString('tr-TR') : new Date().toLocaleString('tr-TR')})</span>
+                                    </div>
+                                `).join('') : ''}
+                            </div>
+                            <input type="text" class="comment-input" id="comment-input-${post.id}" placeholder="Yorum yaz..." onkeypress="handleComment(event, '${post.id}')">
+                        </div>
+                    `;
+                    feed.appendChild(postDiv);
+                }
+                // Buton aktifliğini güncelle
+                document.querySelectorAll('.sort-button').forEach(btn => btn.classList.remove('active'));
+                document.querySelector(`[onclick="sortPosts('${sortBy}')"]`).classList.add('active');
+            } catch (error) {
+                console.error('Postlar yüklenirken hata:', error);
+            }
+        }
+
+        // Sıralama fonksiyonu
+        window.sortPosts = function(sortBy) {
+            currentSort = sortBy;
+            loadPosts(sortBy);
+        }
+
+        // Beğeni ekle/güncelle
+        window.toggleLike = async function(postId) {
+            if (!currentUser) return;
+            try {
+                const postRef = doc(db, 'carPosts', postId);
+                const postSnap = await getDoc(postRef);
+                const postData = postSnap.data();
+                const currentLikes = postData.likes || [];
+                if (!currentLikes.includes(currentUser.uid)) {
+                    currentLikes.push(currentUser.uid);
+                    await updateDoc(postRef, { likes: currentLikes });
+                }
+                loadPosts(currentSort);
+            } catch (error) {
+                console.error('Beğeni hatası:', error);
+            }
+        }
+
+        // Yorum ekle
+        window.addComment = async function(postId, text) {
+            if (!currentUser) return;
+            try {
+                const postRef = doc(db, 'carPosts', postId);
+                const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
+                const username = userDoc.exists() ? userDoc.data().username : 'Anonim';
+                await updateDoc(postRef, {
+                    comments: arrayUnion({
+                        username: username,
+                        text: text,
+                        timestamp: Timestamp.now(),
+                        userId: currentUser.uid
+                    })
+                });
+                loadPosts(currentSort);
+            } catch (error) {
+                console.error('Yorum hatası:', error);
+            }
+        }
+
+        // Handle comment input
+        window.handleComment = function(event, postId) {
+            if (event.key === 'Enter' && currentUser) {
+                const input = document.getElementById(`comment-input-${postId}`);
+                const text = input.value.trim();
+                if (text) {
+                    addComment(postId, text);
+                    input.value = '';
+                }
+            }
+        }
+
+        // Upload modal aç
+        window.openUploadModal = function() {
+            if (!currentUser) {
+                alert('Önce giriş yapın!');
+                return;
+            }
+            document.getElementById('uploadModal').style.display = 'block';
+        }
+
+        // Upload modal kapat
+        window.closeUploadModal = function() {
+            document.getElementById('uploadModal').style.display = 'none';
+            document.getElementById('uploadForm').reset();
+        }
+
+        // Form submit handle et
+        document.getElementById('uploadForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const fileInput = document.getElementById('carImage');
+            const description = document.getElementById('carDescription').value;
+            const forSale = document.getElementById('forSale').checked;
+
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = async function(e) {
+                    try {
+                        const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
+                        const username = userDoc.exists() ? userDoc.data().username : 'Anonim';
+                        await addDoc(collection(db, 'carPosts'), {
+                            image: e.target.result,
+                            description: description,
+                            forSale: forSale,
+                            likes: [],
+                            comments: [],
+                            timestamp: Timestamp.now(),
+                            username: username,
+                            userId: currentUser.uid
+                        });
+                        loadPosts(currentSort);
+                        closeUploadModal();
+                    } catch (error) {
+                        console.error('Post hatası:', error);
+                    }
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            }
+        });
+
+        // Modal dışına tıkla kapat
+        window.onclick = function(event) {
+            const authModal = document.getElementById('authModal');
+            const uploadModal = document.getElementById('uploadModal');
+            if (event.target === authModal) {
+                closeAuthModal();
+            }
+            if (event.target === uploadModal) {
+                closeUploadModal();
+            }
+        }
+    </script>
+
+    <!-- Particle effect -->
+    <script>
+        function createParticles() {
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.style.position = 'fixed';
+                particle.style.width = '2px';
+                particle.style.height = '2px';
+                particle.style.background = 'rgba(74, 144, 226, 0.5)';
+                particle.style.borderRadius = '50%';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animation = `float ${Math.random() * 3 + 2}s infinite ease-in-out`;
+                particle.style.pointerEvents = 'none';
+                particle.style.zIndex = '-1';
+                document.body.appendChild(particle);
+            }
+        }
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes float {
+                0%, 100% { transform: translateY(0px); }
+                50% { transform: translateY(-20px); }
+            }
+        `;
+        document.head.appendChild(style);
+        createParticles();
+    </script>
+</body>
+</html>
