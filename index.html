@@ -141,6 +141,30 @@
             color: #fff;
             transform: translateY(-2px);
         }
+        .youtube-link {
+            display: inline-block;
+            padding: 12px 25px;
+            background: rgba(255, 255, 255, 0.15);
+            color: #4a90e2;
+            text-decoration: none;
+            border-radius: 12px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1em;
+            font-weight: 400;
+            transition: background 0.3s, color 0.3s, transform 0.3s;
+            box-shadow: 0 4px 8px rgba(74, 144, 226, 0.2);
+        }
+        .youtube-link::before {
+            content: '\f1b3'; /* YouTube icon */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            margin-right: 10px;
+        }
+        .youtube-link:hover {
+            background: rgba(74, 144, 226, 0.25);
+            color: #fff;
+            transform: translateY(-2px);
+        }
         .menu-toggle {
             position: absolute;
             top: 20px;
@@ -197,7 +221,7 @@
         }
         @media (max-width: 768px) {
             h1 { font-size: 2.5em; }
-            .gg-button, .tool-button, .telegram-link { display: block; margin: 10px auto; }
+            .gg-button, .tool-button, .telegram-link, .youtube-link { display: block; margin: 10px auto; }
         }
     </style>
 </head>
@@ -213,6 +237,7 @@
         <button class="tool-button" onclick="showToolSharing()">Araç Paylaşımı</button>
         <button class="tool-button" onclick="showScriptsDownload()">4.9.4 scriptleri indir</button>
         <a href="https://t.me/machaahsp" target="_blank" class="telegram-link">Telegram Kanalı</a>
+        <a href="https://youtube.com/@machaa-t1r?si=f99ZiU13pqrUbVzt" target="_blank" class="youtube-link">Youtube Kanalı</a>
     </div>
     <footer class="footer">
         <p>&copy; 2025 Machaa GG. Tüm hakları saklıdır. | <i class="fas fa-heart" style="color: #4a90e2;"></i> xAI ile geliştirildi</p>
