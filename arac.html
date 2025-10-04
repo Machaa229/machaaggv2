@@ -268,6 +268,14 @@
             border-radius: 5px;
             margin-bottom: 5px;
             font-size: 0.85em;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .comment-content {
+            flex-grow: 1;
+            min-width: 0;
         }
         .comment-username {
             font-weight: bold;
@@ -277,6 +285,20 @@
             color: #888;
             font-size: 0.75em;
             margin-left: 8px;
+        }
+        .delete-comment-button {
+            background: none;
+            border: none;
+            color: #ff6b6b;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: color 0.3s;
+            touch-action: manipulation;
+            padding: 0 4px;
+            margin-left: 8px;
+        }
+        .delete-comment-button:hover {
+            color: #ff4757;
         }
         .comment-input {
             width: 100%;
@@ -451,6 +473,9 @@
             }
             .comment-time {
                 font-size: 0.7em;
+            }
+            .delete-comment-button {
+                font-size: 0.8em;
             }
             .comment-input {
                 font-size: 0.85em;
@@ -724,7 +749,10 @@
                             <div id="comments-${post.id}">
                                 ${post.comments ? post.comments.map(comment => `
                                     <div class="comment">
-                                        <span class="comment-username">${comment.username}:</span> ${comment.text} <span class="comment-time">(${comment.timestamp ? comment.timestamp.toDate().toLocaleString('tr-TR') : new Date().toLocaleString('tr-TR')})</span>
+                                        <div class="comment-content">
+                                            <span class="comment-username">${comment.username}:</span> ${comment.text} <span class="comment-time">(${comment.timestamp ? comment.timestamp.toDate().toLocaleString('tr-TR') : new Date().toLocaleString('tr-TR')})</span>
+                                        </div>
+                                        ${comment.userId === currentUser.uid ? `<button class="delete-comment-button" onclick="deleteComment('${post.id}', ${comment.timestamp.toMillis()})" title="Yorumu Sil"><i class="fas fa-trash"></i></button>` : ''}
                                     </div>
                                 `).join('') : ''}
                             </div>
@@ -781,6 +809,25 @@
                 } catch (error) {
                     console.error('Silme hatası:', error);
                     alert('Paylaşım silinirken hata oluştu: ' + error.message);
+                }
+            }
+        }
+
+        // Yorum sil - Sadece sahibi silebilir
+        window.deleteComment = async function(postId, commentTimestamp) {
+            if (!currentUser) return;
+            if (confirm('Bu yorumu silmek istediğinizden emin misiniz?')) {
+                try {
+                    const postRef = doc(db, 'carPosts', postId);
+                    const postSnap = await getDoc(postRef);
+                    const postData = postSnap.data();
+                    const comments = postData.comments || [];
+                    const updatedComments = comments.filter(comment => !(comment.userId === currentUser.uid && comment.timestamp.toMillis() === commentTimestamp));
+                    await updateDoc(postRef, { comments: updatedComments });
+                    loadPosts(currentSort);
+                } catch (error) {
+                    console.error('Yorum silme hatası:', error);
+                    alert('Yorum silinirken hata oluştu: ' + error.message);
                 }
             }
         }
