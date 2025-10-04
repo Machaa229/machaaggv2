@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Araç Paylaşımı - Machaa GG</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -11,7 +11,7 @@
             font-family: 'Roboto', sans-serif;
             background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #0f0f23 100%);
             margin: 0;
-            padding: 20px;
+            padding: 15px;
             color: #e0e0e0;
             overflow-x: hidden;
             display: flex;
@@ -36,155 +36,134 @@
             font-family: 'Orbitron', sans-serif;
             text-align: center;
             color: #4a90e2;
-            font-size: 3em;
+            font-size: 2.2em;
             font-weight: 700;
-            margin: 20px 0;
+            margin: 15px 0;
             text-shadow: 0 2px 4px rgba(74, 144, 226, 0.3);
             animation: fadeInUp 1s ease-out;
-            transition: transform 0.3s ease;
         }
         h1:hover {
-            transform: scale(1.02);
+            transform: none; /* Removed scale for mobile to avoid zoom issues */
         }
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         .subtitle {
             text-align: center;
-            font-size: 1.1em;
+            font-size: 1em;
             color: #b8b8b8;
-            margin: 0 0 40px 0;
+            margin: 0 0 20px 0;
             font-style: italic;
             animation: fadeInUp 1s ease-out 0.2s both;
         }
         .sort-buttons {
             display: flex;
+            flex-wrap: wrap;
             justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 8px;
+            margin-bottom: 15px;
             animation: fadeInUp 1s ease-out 0.4s both;
         }
-        .sort-button {
-            padding: 10px 20px;
+        .sort-button, .refresh-button {
+            padding: 12px 20px;
             background: linear-gradient(45deg, #4a90e2, #357abd);
             color: #fff;
             border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1em;
-            font-weight: 400;
-            transition: transform 0.3s, box-shadow 0.3s;
-            box-shadow: 0 4px 8px rgba(74, 144, 226, 0.3);
-        }
-        .sort-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(74, 144, 226, 0.4);
-        }
-        .sort-button.active {
-            background: linear-gradient(45deg, #357abd, #4a90e2);
-            box-shadow: 0 6px 12px rgba(74, 144, 226, 0.5);
-        }
-        .refresh-button {
-            padding: 10px 20px;
-            background: linear-gradient(45deg, #28a745, #20c997);
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1em;
-            font-weight: 400;
-            transition: transform 0.3s, box-shadow 0.3s;
-            box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
-        }
-        .refresh-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(40, 167, 69, 0.4);
-        }
-        .refresh-button::before {
-            content: '\f021'; /* Refresh icon */
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            margin-right: 8px;
-        }
-        .upload-button {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            padding: 12px 25px;
-            background: linear-gradient(45deg, #4a90e2, #357abd);
-            color: #fff;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.1em;
-            font-weight: 400;
-            transition: transform 0.3s, box-shadow 0.3s;
-            box-shadow: 0 6px 12px rgba(74, 144, 226, 0.3);
-            animation: fadeIn 1s ease-out;
-        }
-        .upload-button::before {
-            content: '\f030'; /* Upload icon */
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            margin-right: 8px;
-        }
-        .upload-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 16px rgba(74, 144, 226, 0.4);
-        }
-        .auth-section {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            animation: fadeIn 1s ease-out;
-        }
-        .auth-button {
-            background: rgba(255, 255, 255, 0.15);
-            color: #4a90e2;
-            border: 1px solid rgba(74, 144, 226, 0.3);
-            padding: 8px 15px;
             border-radius: 8px;
             cursor: pointer;
             font-family: 'Orbitron', sans-serif;
             font-size: 0.9em;
-            transition: background 0.3s, color 0.3s;
-            margin-right: 10px;
+            font-weight: 400;
+            transition: background 0.3s, box-shadow 0.3s;
+            box-shadow: 0 3px 6px rgba(74, 144, 226, 0.3);
+            touch-action: manipulation; /* Improves touch responsiveness */
         }
-        .auth-button:hover {
+        .sort-button:hover, .refresh-button:hover {
+            background: linear-gradient(45deg, #357abd, #4a90e2);
+            box-shadow: 0 4px 8px rgba(74, 144, 226, 0.4);
+        }
+        .sort-button.active {
+            background: linear-gradient(45deg, #357abd, #4a90e2);
+            box-shadow: 0 4px 8px rgba(74, 144, 226, 0.5);
+        }
+        .refresh-button {
+            background: linear-gradient(45deg, #28a745, #20c997);
+            box-shadow: 0 3px 6px rgba(40, 167, 69, 0.3);
+        }
+        .refresh-button::before {
+            content: '\f021';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            margin-right: 6px;
+        }
+        .upload-button {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            padding: 10px 20px;
+            background: linear-gradient(45deg, #4a90e2, #357abd);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9em;
+            font-weight: 400;
+            box-shadow: 0 3px 6px rgba(74, 144, 226, 0.3);
+            animation: fadeIn 1s ease-out;
+            z-index: 100;
+            touch-action: manipulation;
+        }
+        .upload-button::before {
+            content: '\f030';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            margin-right: 6px;
+        }
+        .upload-button:hover {
+            background: linear-gradient(45deg, #357abd, #4a90e2);
+        }
+        .auth-section {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 100;
+            animation: fadeIn 1s ease-out;
+        }
+        .auth-button, .logout-button {
+            background: rgba(255, 255, 255, 0.15);
+            color: #4a90e2;
+            border: 1px solid rgba(74, 144, 226, 0.3);
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85em;
+            transition: background 0.3s, color 0.3s;
+            touch-action: manipulation;
+        }
+        .auth-button:hover, .logout-button:hover {
             background: rgba(74, 144, 226, 0.25);
             color: #fff;
         }
         .username-display {
             background: rgba(255, 255, 255, 0.1);
-            padding: 10px 15px;
-            border-radius: 8px;
+            padding: 8px 12px;
+            border-radius: 6px;
             color: #4a90e2;
             font-family: 'Orbitron', sans-serif;
-            font-size: 1em;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(10px);
-            display: inline-block;
+            font-size: 0.9em;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(8px);
         }
         .logout-button {
             background: rgba(255, 99, 71, 0.2);
             color: #ff6b6b;
             border: 1px solid rgba(255, 99, 71, 0.3);
-            padding: 8px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.9em;
-            transition: background 0.3s, color 0.3s;
         }
         .logout-button:hover {
             background: rgba(255, 99, 71, 0.4);
@@ -197,71 +176,98 @@
         .feed {
             width: 100%;
             max-width: 600px;
-            margin: 60px 0;
+            margin: 80px 0 20px;
             animation: fadeInUp 1s ease-out 0.4s both;
         }
         .post {
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            margin-bottom: 20px;
-            padding: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            margin-bottom: 15px;
+            padding: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(8px);
         }
         .post img {
             width: 100%;
             border-radius: 8px;
-            max-height: 300px;
+            max-height: 250px;
             object-fit: cover;
         }
         .post-caption {
-            margin: 10px 0;
-            font-size: 1em;
+            margin: 8px 0;
+            font-size: 0.95em;
             color: #e0e0e0;
         }
         .post-date {
             color: #b8b8b8;
-            font-size: 0.9em;
+            font-size: 0.85em;
             margin: 5px 0;
             font-style: italic;
+        }
+        .post-status {
+            font-size: 0.9em;
+            margin: 5px 0;
         }
         .post-sale {
             color: #4a90e2;
             font-weight: bold;
         }
-        .post-no-sale {
+        .post-trade {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .post-no-status {
             color: #b8b8b8;
         }
         .post-actions {
             display: flex;
             align-items: center;
-            margin: 10px 0;
+            justify-content: space-between;
+            margin: 8px 0;
+        }
+        .post-actions-left {
+            display: flex;
+            align-items: center;
         }
         .like-button {
             background: none;
             border: none;
             color: #b8b8b8;
             cursor: pointer;
-            font-size: 1.2em;
-            margin-right: 10px;
+            font-size: 1.3em;
+            margin-right: 8px;
             transition: color 0.3s;
+            touch-action: manipulation;
         }
         .like-button:hover, .liked {
             color: #ff6b6b;
         }
         .like-count {
             color: #b8b8b8;
-            font-size: 0.9em;
+            font-size: 0.85em;
+        }
+        .delete-button {
+            background: none;
+            border: none;
+            color: #ff6b6b;
+            cursor: pointer;
+            font-size: 1.3em;
+            transition: color 0.3s;
+            touch-action: manipulation;
+            margin-left: auto;
+        }
+        .delete-button:hover {
+            color: #ff4757;
         }
         .comments-section {
-            margin-top: 10px;
+            margin-top: 8px;
         }
         .comment {
             background: rgba(255, 255, 255, 0.05);
-            padding: 8px;
-            border-radius: 6px;
+            padding: 6px;
+            border-radius: 5px;
             margin-bottom: 5px;
-            font-size: 0.9em;
+            font-size: 0.85em;
         }
         .comment-username {
             font-weight: bold;
@@ -269,23 +275,25 @@
         }
         .comment-time {
             color: #888;
-            font-size: 0.8em;
-            margin-left: 10px;
+            font-size: 0.75em;
+            margin-left: 8px;
         }
         .comment-input {
             width: 100%;
             padding: 8px;
             border: 1px solid rgba(74, 144, 226, 0.3);
-            border-radius: 6px;
+            border-radius: 5px;
             background: rgba(255, 255, 255, 0.1);
             color: #e0e0e0;
             font-family: 'Roboto', sans-serif;
+            font-size: 0.9em;
             margin-top: 5px;
         }
         .post-username {
             color: #4a90e2;
             font-weight: bold;
-            margin-bottom: 10px;
+            font-size: 0.9em;
+            margin-bottom: 8px;
         }
         .modal {
             display: none;
@@ -295,23 +303,23 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            animation: fadeIn 0.3s;
+            background-color: rgba(0, 0, 0, 0.7);
+            overflow-y: auto;
         }
         .modal-content {
             background: linear-gradient(135deg, #1a1a2e 0%, #0f0f23 100%);
-            margin: 10% auto;
-            padding: 20px;
-            border-radius: 12px;
-            width: 90%;
-            max-width: 500px;
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(12px);
+            margin: 15% auto;
+            padding: 15px;
+            border-radius: 10px;
+            width: 85%;
+            max-width: 400px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
         }
         .close {
             color: #aaa;
             float: right;
-            font-size: 28px;
+            font-size: 24px;
             font-weight: bold;
             cursor: pointer;
         }
@@ -320,69 +328,183 @@
         }
         .google-button {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             background: #4285f4;
             color: #fff;
             border: none;
-            border-radius: 8px;
+            border-radius: 6px;
             cursor: pointer;
             font-family: 'Orbitron', sans-serif;
-            font-size: 1em;
-            transition: transform 0.3s;
+            font-size: 0.9em;
+            touch-action: manipulation;
         }
         .google-button:hover {
-            transform: translateY(-2px);
-        }
-        .google-button::before {
-            content: none;
+            background: #357ae8;
         }
         .upload-form input[type="file"],
         .upload-form textarea,
         .upload-form label {
             width: 100%;
-            margin-bottom: 15px;
-            padding: 10px;
+            margin-bottom: 12px;
+            padding: 8px;
             border: 1px solid rgba(74, 144, 226, 0.3);
-            border-radius: 8px;
+            border-radius: 6px;
             background: rgba(255, 255, 255, 0.1);
             color: #e0e0e0;
             font-family: 'Roboto', sans-serif;
+            font-size: 0.9em;
         }
         .upload-form textarea {
             resize: vertical;
-            min-height: 100px;
+            min-height: 80px;
         }
         .upload-form input[type="checkbox"] {
             width: auto;
-            margin-right: 10px;
+            margin-right: 8px;
         }
         .upload-form button {
-            padding: 12px 25px;
+            width: 100%;
+            padding: 10px;
             background: linear-gradient(45deg, #4a90e2, #357abd);
             color: #fff;
             border: none;
-            border-radius: 8px;
+            border-radius: 6px;
             cursor: pointer;
             font-family: 'Orbitron', sans-serif;
-            font-size: 1em;
-            transition: transform 0.3s;
+            font-size: 0.9em;
+            touch-action: manipulation;
         }
         .upload-form button:hover {
-            transform: translateY(-2px);
+            background: linear-gradient(45deg, #357abd, #4a90e2);
         }
         .footer {
             margin-top: auto;
             text-align: center;
-            padding: 20px;
+            padding: 15px;
             color: #b8b8b8;
-            font-size: 0.9em;
+            font-size: 0.85em;
             animation: fadeInUp 1s ease-out 0.6s both;
         }
         @media (max-width: 768px) {
-            h1 { font-size: 2.5em; }
-            .upload-button { top: 10px; right: 10px; padding: 10px 20px; font-size: 1em; }
-            .sort-buttons { flex-direction: column; align-items: center; }
-            .auth-section { top: 10px; left: 10px; }
+            body {
+                padding: 10px;
+            }
+            h1 {
+                font-size: 1.8em;
+                margin: 10px 0;
+            }
+            .subtitle {
+                font-size: 0.9em;
+                margin-bottom: 15px;
+            }
+            .sort-buttons {
+                flex-direction: column;
+                gap: 6px;
+            }
+            .sort-button, .refresh-button {
+                width: 100%;
+                padding: 10px;
+                font-size: 0.85em;
+            }
+            .upload-button {
+                padding: 8px 15px;
+                font-size: 0.85em;
+            }
+            .auth-section {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 6px;
+            }
+            .auth-button, .logout-button {
+                padding: 6px 10px;
+                font-size: 0.8em;
+            }
+            .username-display {
+                font-size: 0.85em;
+                padding: 6px 10px;
+            }
+            .feed {
+                margin: 60px 0 15px;
+            }
+            .post {
+                padding: 10px;
+                margin-bottom: 12px;
+            }
+            .post img {
+                max-height: 200px;
+            }
+            .post-caption {
+                font-size: 0.9em;
+            }
+            .post-date, .post-status {
+                font-size: 0.8em;
+            }
+            .like-button, .delete-button {
+                font-size: 1.1em;
+            }
+            .like-count {
+                font-size: 0.8em;
+            }
+            .comment {
+                font-size: 0.8em;
+                padding: 5px;
+            }
+            .comment-time {
+                font-size: 0.7em;
+            }
+            .comment-input {
+                font-size: 0.85em;
+                padding: 6px;
+            }
+            .modal-content {
+                margin: 20% auto;
+                padding: 12px;
+                width: 90%;
+            }
+            .google-button, .upload-form button {
+                font-size: 0.85em;
+                padding: 8px;
+            }
+            .upload-form input[type="file"],
+            .upload-form textarea,
+            .upload-form label {
+                font-size: 0.85em;
+                padding: 6px;
+            }
+            .footer {
+                font-size: 0.8em;
+                padding: 10px;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.6em;
+            }
+            .subtitle {
+                font-size: 0.85em;
+            }
+            .sort-button, .refresh-button {
+                font-size: 0.8em;
+                padding: 8px;
+            }
+            .upload-button {
+                padding: 6px 12px;
+                font-size: 0.8em;
+            }
+            .auth-button, .logout-button {
+                font-size: 0.75em;
+                padding: 5px 8px;
+            }
+            .username-display {
+                font-size: 0.8em;
+            }
+            .post img {
+                max-height: 180px;
+            }
+            .modal-content {
+                margin: 25% auto;
+                width: 95%;
+            }
         }
     </style>
 </head>
@@ -392,9 +514,9 @@
         <div id="usernameDisplay" style="display: none;"></div>
         <button class="logout-button" id="logoutButton" onclick="logoutUser()" style="display: none;">Çıkış</button>
     </div>
-    <button class="upload-button" onclick="openUploadModal()">En İyi En Gerçekçi Aracını Paylaş</button>
+    <button class="upload-button" onclick="openUploadModal()">En İyi Aracını Paylaş</button>
     <h1>Araç Paylaşımı</h1>
-    <p class="subtitle">En sevdiğin aracını paylaş ve topluluğa göster! Satılık mı değil mi belirtmeyi unutma.</p>
+    <p class="subtitle">En sevdiğin aracını paylaş ve topluluğa göster!</p>
     <div class="sort-buttons">
         <button class="sort-button active" onclick="sortPosts('popular')">En Popüler</button>
         <button class="sort-button" onclick="sortPosts('date')">Yeniden Eskiye</button>
@@ -412,8 +534,8 @@
         <div class="modal-content">
             <span class="close" onclick="closeAuthModal()">&times;</span>
             <h2 style="color: #4a90e2; text-align: center; font-family: 'Orbitron', sans-serif;">Giriş Yap</h2>
-            <p style="text-align: center; color: #b8b8b8;">Gmail adresinizle hızlıca giriş yapın.</p>
-            <input type="email" id="emailInput" placeholder="Gmail adresinizi girin..." style="width: 100%; padding: 12px; border: 1px solid rgba(74, 144, 226, 0.3); border-radius: 8px; background: rgba(255, 255, 255, 0.1); color: #e0e0e0; font-family: 'Roboto', sans-serif; margin-bottom: 15px;">
+            <p style="text-align: center; color: #b8b8b8;">Gmail adresinizle giriş yapın.</p>
+            <input type="email" id="emailInput" placeholder="Gmail adresinizi girin..." style="width: 100%; padding: 10px; border: 1px solid rgba(74, 144, 226, 0.3); border-radius: 6px; background: rgba(255, 255, 255, 0.1); color: #e0e0e0; font-family: 'Roboto', sans-serif; margin-bottom: 12px;">
             <button class="google-button" onclick="manualSignIn()">Devam Et</button>
         </div>
     </div>
@@ -428,10 +550,14 @@
                 <input type="file" id="carImage" accept="image/*" required>
                 
                 <label for="carDescription">Araç Hakkında:</label>
-                <textarea id="carDescription" placeholder="Aracın hakkında bilgi yaz... (model, yıl, özellikler vb.)" required></textarea>
+                <textarea id="carDescription" placeholder="Aracın hakkında bilgi yaz..." required></textarea>
                 
                 <label>
                     <input type="checkbox" id="forSale"> Bu araç satılıktır.
+                </label>
+                
+                <label>
+                    <input type="checkbox" id="forTrade"> Bu araç takaslıktır.
                 </label>
                 
                 <button type="submit">Paylaş</button>
@@ -439,13 +565,11 @@
         </div>
     </div>
 
-    <!-- Firebase SDK'ları -->
+    <!-- Firebase SDK and JavaScript -->
     <script type="module">
-        // Firebase'i import et
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js';
-        import { getFirestore, collection, addDoc, getDocs, updateDoc, doc, arrayUnion, Timestamp, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js';
+        import { getFirestore, collection, addDoc, getDocs, updateDoc, doc, arrayUnion, Timestamp, getDoc, setDoc, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js';
 
-        // Firebase konfigürasyonunu buraya ekle (Firebase Console'dan al)
         const firebaseConfig = {
             apiKey: "AIzaSyBYZGpWCYxMQqXrxYERZFfO-mAbGKDAaN8",
             authDomain: "machaagg-73bb5.firebaseapp.com",
@@ -455,14 +579,12 @@
             appId: "1:143234035871:web:cbf7e4cb927084c6eb72aa"
         };
 
-        // Firebase'i başlat
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        let currentSort = 'popular'; // Varsayılan sıralama
+        let currentSort = 'popular';
         let currentUser = null;
 
-        // Kullanıcıyı ayarla
         async function setCurrentUser(email) {
             currentUser = { uid: email, email: email };
             const userRef = doc(db, 'users', email);
@@ -565,19 +687,38 @@
                     postDiv.className = 'post';
                     postDiv.id = `post-${post.id}`;
                     const timestamp = post.timestamp ? post.timestamp.toDate().toLocaleString('tr-TR') : new Date().toLocaleString('tr-TR');
-                    const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
-                    const username = userDoc.exists() ? userDoc.data().username : 'Anonim';
+                    // Check if current user has liked this post
+                    const isLiked = post.likes && post.likes.includes(currentUser.uid);
+                    // Status text
+                    let statusHtml = '';
+                    if (post.forSale && post.forTrade) {
+                        statusHtml = '<span class="post-sale">🟢 Satılıktır</span> <span class="post-trade">🔄 Takaslıktır</span>';
+                    } else if (post.forSale) {
+                        statusHtml = '<span class="post-sale">🟢 Satılıktır</span>';
+                    } else if (post.forTrade) {
+                        statusHtml = '<span class="post-trade">🔄 Takaslıktır</span>';
+                    } else {
+                        statusHtml = '<span class="post-no-status">🔴 Satılık/Takas Değil</span>';
+                    }
+                    // Delete button only for owner
+                    let deleteButtonHtml = '';
+                    if (post.userId === currentUser.uid) {
+                        deleteButtonHtml = `<button class="delete-button" onclick="deletePost('${post.id}')" title="Paylaşımı Sil"><i class="fas fa-trash"></i></button>`;
+                    }
                     postDiv.innerHTML = `
                         <div class="post-username">Paylaşan: ${post.username || 'Anonim'}</div>
                         <img src="${post.image}" alt="Araç Fotoğrafı" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMzU3YWJkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5Gb3RvZ3JhZiBZZWtpbm1lZGk8L3RleHQ+PC9zdmc+'">
                         <p class="post-caption">${post.description}</p>
                         <p class="post-date">Paylaşım Tarihi: ${timestamp}</p>
-                        <p class="${post.forSale ? 'post-sale' : 'post-no-sale'}">${post.forSale ? '🟢 Satılıktır' : '🔴 Satılık Değil'}</p>
+                        <div class="post-status">${statusHtml}</div>
                         <div class="post-actions">
-                            <button class="like-button" onclick="toggleLike('${post.id}')" id="like-${post.id}">
-                                <i class="fas fa-heart"></i>
-                            </button>
-                            <span class="like-count" id="like-count-${post.id}">${post.likeCount} Beğeni</span>
+                            <div class="post-actions-left">
+                                <button class="like-button ${isLiked ? 'liked' : ''}" onclick="toggleLike('${post.id}')" id="like-${post.id}">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                                <span class="like-count" id="like-count-${post.id}">${post.likeCount} Beğeni</span>
+                            </div>
+                            ${deleteButtonHtml}
                         </div>
                         <div class="comments-section">
                             <div id="comments-${post.id}">
@@ -606,7 +747,7 @@
             loadPosts(sortBy);
         }
 
-        // Beğeni ekle/güncelle
+        // Beğeni ekle/güncelle - Toggle functionality only
         window.toggleLike = async function(postId) {
             if (!currentUser) return;
             try {
@@ -614,13 +755,33 @@
                 const postSnap = await getDoc(postRef);
                 const postData = postSnap.data();
                 const currentLikes = postData.likes || [];
-                if (!currentLikes.includes(currentUser.uid)) {
-                    currentLikes.push(currentUser.uid);
-                    await updateDoc(postRef, { likes: currentLikes });
+                const isCurrentlyLiked = currentLikes.includes(currentUser.uid);
+                
+                if (isCurrentlyLiked) {
+                    // Unlike: Remove like
+                    const updatedLikes = currentLikes.filter(uid => uid !== currentUser.uid);
+                    await updateDoc(postRef, { likes: updatedLikes });
+                } else {
+                    // Like: Add like
+                    const updatedLikes = [...currentLikes, currentUser.uid];
+                    await updateDoc(postRef, { likes: updatedLikes });
                 }
                 loadPosts(currentSort);
             } catch (error) {
                 console.error('Beğeni hatası:', error);
+            }
+        }
+
+        // Paylaşımı sil - Sadece sahibi silebilir
+        window.deletePost = async function(postId) {
+            if (confirm('Bu paylaşımı silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.')) {
+                try {
+                    await deleteDoc(doc(db, 'carPosts', postId));
+                    loadPosts(currentSort);
+                } catch (error) {
+                    console.error('Silme hatası:', error);
+                    alert('Paylaşım silinirken hata oluştu: ' + error.message);
+                }
             }
         }
 
@@ -678,6 +839,7 @@
             const fileInput = document.getElementById('carImage');
             const description = document.getElementById('carDescription').value;
             const forSale = document.getElementById('forSale').checked;
+            const forTrade = document.getElementById('forTrade').checked;
 
             if (fileInput.files && fileInput.files[0]) {
                 const reader = new FileReader();
@@ -689,6 +851,7 @@
                             image: e.target.result,
                             description: description,
                             forSale: forSale,
+                            forTrade: forTrade,
                             likes: [],
                             comments: [],
                             timestamp: Timestamp.now(),
@@ -718,10 +881,12 @@
         }
     </script>
 
-    <!-- Particle effect -->
+    <!-- Particle effect (optimized for mobile) -->
     <script>
         function createParticles() {
-            for (let i = 0; i < 50; i++) {
+            const isMobile = window.innerWidth <= 768;
+            const particleCount = isMobile ? 20 : 50; // Reduce particles on mobile
+            for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.style.position = 'fixed';
                 particle.style.width = '2px';
@@ -740,7 +905,7 @@
         style.textContent = `
             @keyframes float {
                 0%, 100% { transform: translateY(0px); }
-                50% { transform: translateY(-20px); }
+                50% { transform: translateY(-15px); }
             }
         `;
         document.head.appendChild(style);
