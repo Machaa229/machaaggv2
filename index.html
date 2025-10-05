@@ -3,9 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Machaa GG</title>
+    <title>Machaa CPM</title>
+    <meta name="description" content="Machaa CPM - Car Parking Multiplayer scriptleri, araç paylaşımı ve topluluk.">
+    <meta name="keywords" content="car parking multiplayer script, cpm tools, machaa cpm">
+    <meta property="og:title" content="Machaa CPM">
+    <meta property="og:description" content="Car Parking Multiplayer gaming araçları burada!">
+    <meta property="og:image" content="https://example.com/logo.png"> <!-- Logo URL'ini koy -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Analytics (ücretsiz, GA4 ID'ni al) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID');
+    </script>
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -20,6 +33,12 @@
             min-height: 100vh;
             position: relative;
         }
+        body.light-theme {
+            background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 50%, #f0f0f0 100%);
+            color: #333;
+        }
+        body.light-theme h1 { color: #357abd; }
+        body.light-theme .gg-button { background: linear-gradient(45deg, #357abd, #4a90e2); }
         body::before {
             content: '';
             position: fixed;
@@ -68,6 +87,19 @@
             text-align: center;
             margin: 40px 0;
             animation: fadeInUp 1s ease-out 0.4s both;
+        }
+        .old-versions {
+            text-align: center;
+            margin: 40px 0;
+            animation: fadeInUp 1s ease-out 0.8s both;
+            border-top: 1px solid rgba(74, 144, 226, 0.3);
+            padding-top: 20px;
+        }
+        .old-versions h3 {
+            color: #b8b8b8;
+            font-family: 'Orbitron';
+            font-size: 1.5em;
+            margin-bottom: 15px;
         }
         .gg-button {
             display: inline-block;
@@ -184,6 +216,21 @@
             from { opacity: 0; }
             to { opacity: 1; }
         }
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+            font-size: 24px;
+            color: #4a90e2;
+            transition: color 0.3s, transform 0.3s;
+            z-index: 1000;
+            animation: fadeIn 1s ease-out;
+        }
+        .theme-toggle:hover {
+            color: #357abd;
+            transform: scale(1.1);
+        }
         .contact-menu {
             display: none;
             position: absolute;
@@ -211,6 +258,60 @@
         .contact-menu span:hover {
             color: #357abd;
         }
+        .updates-section {
+            margin: 40px 0;
+            text-align: center;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+        .updates-section h2 {
+            color: #4a90e2;
+            font-family: 'Orbitron';
+            font-size: 1.8em;
+        }
+        .updates-section ul {
+            list-style: none;
+            padding: 0;
+            color: #b8b8b8;
+        }
+        .updates-section li {
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background: linear-gradient(135deg, #0f0f23, #1a1a2e);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 500px;
+            color: #e0e0e0;
+        }
+        .modal-content h2 {
+            color: #4a90e2;
+            font-family: 'Orbitron';
+        }
+        .modal-content button {
+            background: #4a90e2;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
         .footer {
             margin-top: auto;
             text-align: center;
@@ -218,6 +319,14 @@
             color: #b8b8b8;
             font-size: 0.9em;
             animation: fadeInUp 1s ease-out 0.6s both;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        @keyframes confettiFall {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
         }
         @media (max-width: 768px) {
             h1 { font-size: 2.5em; }
@@ -227,20 +336,39 @@
 </head>
 <body>
     <div class="menu-toggle" onclick="toggleContactMenu()">...</div>
+    <div class="theme-toggle" onclick="toggleTheme()">🌙</div>
     <div class="contact-menu" id="contactMenu">
         <span onclick="showComingSoon()">İletişim</span>
     </div>
-    <h1>Machaa GG</h1>
-    <p class="subtitle">Bu web sitesi şu an test aşamasındadır yakında daha fazla özellik gelecektir</p>
+    <h1>Machaa CPM</h1>
+    <p class="subtitle">Car Parking Multiplayer için araçlar ve scriptler. Bu web sitesi şu an test aşamasındadır yakında daha fazla özellik gelecektir</p>
     <div class="buttons-container">
-        <button class="gg-button" onclick="showInstallation()">GG Kurulumu</button>
-        <button class="tool-button" onclick="showToolSharing()">Araç Paylaşımı</button>
-        <button class="tool-button" onclick="showScriptsDownload()">4.9.4 scriptleri indir</button>
+        <button class="gg-button" onclick="showInstallation(); playConfetti();">Game Guardian Kurulumu</button>
+        <button class="tool-button" onclick="showToolSharing(); playConfetti();">CPM Araç Paylaşımı</button>
+        <button class="tool-button" onclick="showNewScriptsDownload(); playConfetti();">4.9.5.1 Script İndir</button>
+        <button class="gg-button" onclick="showAboutModal(); playConfetti();">Hakkında</button>
         <a href="https://t.me/machaahsp" target="_blank" class="telegram-link">Telegram Kanalı</a>
         <a href="https://youtube.com/@machaa-t1r?si=f99ZiU13pqrUbVzt" target="_blank" class="youtube-link">Youtube Kanalı</a>
     </div>
+    <div class="old-versions">
+        <h3>Eski Sürümler</h3>
+        <button class="tool-button" onclick="showScriptsDownload(); playConfetti();">4.9.4 Script İndir</button>
+    </div>
+    <div class="updates-section">
+        <h2>Son Güncellemeler</h2>
+        <ul id="updatesList">
+            <!-- JS ile doldurulacak -->
+        </ul>
+    </div>
+    <div id="aboutModal" class="modal">
+        <div class="modal-content">
+            <h2>Machaa CPM Nedir?</h2>
+            <p>Car Parking Multiplayer araçları, scriptler ve topluluk için buradayız. Yakında daha fazla tool ve güncelleme!</p>
+            <button onclick="closeAboutModal()">Kapat</button>
+        </div>
+    </div>
     <footer class="footer">
-        <p>&copy; 2025 Machaa GG. Tüm hakları saklıdır. | <i class="fas fa-heart" style="color: #4a90e2;"></i> xAI ile geliştirildi</p>
+        <p>&copy; 2025 Machaa CPM. Tüm hakları saklıdır. | <i class="fas fa-heart" style="color: #4a90e2;"></i> xAI ile geliştirildi</p>
     </footer>
 
     <script>
@@ -255,18 +383,63 @@
         }
 
         function showInstallation() {
-            window.open('https://youtu.be/tiS_YwRxrJk?si=W_NX3Vf5JDnYCks2', '_blank');
+            window.open('https://www.youtube.com/watch?v=llWk3kWVDKE', '_blank');
         }
 
         function showToolSharing() {
-            window.open('arac.html', '_blank');
+            window.open('cpm_arac.html', '_blank');
         }
 
         function showScriptsDownload() {
-            window.open('https://www.mediafire.com/file/py5arpijis351cg/Tüm+scriptler4.9.4.zip/file', '_blank');
+            window.open('https://www.mediafire.com/file/ji578ikoekqtqq6/%5BIM_ALAN%5D_4.9.4.lua/file', '_blank');
         }
 
-        // Particle effect (basit JS ile)
+        function showNewScriptsDownload() {
+            window.open('https://www.mediafire.com/file/h3inpzrrbuyw4mm/car+parking+4.9.5.1.lua/file', '_blank');
+        }
+
+        function showAboutModal() {
+            document.getElementById('aboutModal').style.display = 'flex';
+        }
+
+        function closeAboutModal() {
+            document.getElementById('aboutModal').style.display = 'none';
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('light-theme');
+            const icon = document.querySelector('.theme-toggle');
+            icon.textContent = document.body.classList.contains('light-theme') ? '☀️' : '🌙';
+            localStorage.setItem('theme', document.body.classList.contains('light-theme') ? 'light' : 'dark');
+        }
+
+        // Sayfa yüklendiğinde tema yükle
+        window.addEventListener('load', () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.body.classList.add('light-theme');
+                document.querySelector('.theme-toggle').textContent = '☀️';
+            }
+        });
+
+        // Son güncellemeler
+        const updates = [
+            { date: '05.10.2025', desc: 'Yeni CPM 4.9.5.1 script paketi eklendi!' },
+            { date: '05.10.2025', desc: 'Yeni CPM 4.9.4 script paketi eklendi!' },
+            { date: '01.10.2025', desc: 'CPM araç paylaşım sayfası güncellendi.' }
+        ];
+        const list = document.getElementById('updatesList');
+        updates.forEach(update => {
+            const li = document.createElement('li');
+            li.innerHTML = `<strong>${update.date}:</strong> ${update.desc}`;
+            li.style.margin = '10px 0';
+            li.style.padding = '10px';
+            li.style.background = 'rgba(255,255,255,0.1)';
+            li.style.borderRadius = '8px';
+            list.appendChild(li);
+        });
+
+        // Particle effect
         function createParticles() {
             for (let i = 0; i < 50; i++) {
                 const particle = document.createElement('div');
@@ -292,6 +465,27 @@
         `;
         document.head.appendChild(style);
         createParticles();
+
+        // Konfeti efekti
+        function playConfetti() {
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.position = 'fixed';
+                confetti.style.width = '10px';
+                confetti.style.height = '10px';
+                confetti.style.background = `hsl(${Math.random()*360}, 100%, 50%)`;
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.top = Math.random() * 100 + '%';
+                confetti.style.pointerEvents = 'none';
+                confetti.style.zIndex = '999';
+                confetti.style.animation = 'confettiFall 2s linear forwards';
+                document.body.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 2000);
+            }
+        }
+        const confettiStyle = document.createElement('style');
+        confettiStyle.textContent = '@keyframes confettiFall { 0% { transform: translateY(-100vh) rotate(0deg); opacity:1; } 100% { transform: translateY(100vh) rotate(720deg); opacity:0; } }';
+        document.head.appendChild(confettiStyle);
     </script>
 </body>
 </html>
