@@ -187,7 +187,7 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
             backdrop-filter: blur(8px);
         }
-        .post img {
+        .post img, .post video {
             width: 100%;
             border-radius: 8px;
             max-height: 250px;
@@ -452,7 +452,7 @@
                 padding: 10px;
                 margin-bottom: 12px;
             }
-            .post img {
+            .post img, .post video {
                 max-height: 200px;
             }
             .post-caption {
@@ -523,7 +523,7 @@
             .username-display {
                 font-size: 0.8em;
             }
-            .post img {
+            .post img, .post video {
                 max-height: 180px;
             }
             .modal-content {
@@ -571,8 +571,8 @@
             <span class="close" onclick="closeUploadModal()">&times;</span>
             <h2 style="color: #4a90e2; text-align: center; font-family: 'Orbitron', sans-serif;">Araç Paylaş</h2>
             <form class="upload-form" id="uploadForm">
-                <label for="carImage">Araç Fotoğrafı:</label>
-                <input type="file" id="carImage" accept="image/*" required>
+                <label for="carMedia">Araç Fotoğrafı veya Videosu:</label>
+                <input type="file" id="carMedia" accept="image/*,video/*" required>
                 
                 <label for="carDescription">Araç Hakkında:</label>
                 <textarea id="carDescription" placeholder="Aracın hakkında bilgi yaz..." required></textarea>
@@ -594,6 +594,7 @@
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js';
         import { getFirestore, collection, addDoc, getDocs, updateDoc, doc, arrayUnion, Timestamp, getDoc, setDoc, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js';
+        import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-storage.js';
 
         const firebaseConfig = {
             apiKey: "AIzaSyBYZGpWCYxMQqXrxYERZFfO-mAbGKDAaN8",
@@ -606,6 +607,7 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        const storage = getStorage(app);
 
         let currentSort = 'popular';
         let currentUser = null;
@@ -714,6 +716,12 @@
                     const timestamp = post.timestamp ? post.timestamp.toDate().toLocaleString('tr-TR') : new Date().toLocaleString('tr-TR');
                     // Check if current user has liked this post
                     const isLiked = post.likes && post.likes.includes(currentUser.uid);
+                    // Media type determination (backward compatible)
+                    const mediaType = post.mediaType || (post.image.startsWith('data:image/') ? 'image' : 'video');
+                    const mediaHtml = post.image ? (mediaType === 'video' ?
+                        `<video src="${post.image}" controls style="width:100%; border-radius:8px; max-height:250px; object-fit:cover;"><source src="${post.image}" type="${mediaType}/*"> Tarayıcınız video etiketini desteklemiyor.</video>` :
+                        `<img src="${post.image}" alt="Araç Medyası" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMzU3YWJkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5NZWR5YSBZZWtpbm1lZGk8L3RleHQ+PC9zdmc+'">`
+                    ) : '';
                     // Status text
                     let statusHtml = '';
                     if (post.forSale && post.forTrade) {
@@ -732,7 +740,7 @@
                     }
                     postDiv.innerHTML = `
                         <div class="post-username">Paylaşan: ${post.username || 'Anonim'}</div>
-                        <img src="${post.image}" alt="Araç Fotoğrafı" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMzU3YWJkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5Gb3RvZ3JhZiBZZWtpbm1lZGk8L3RleHQ+PC9zdmc+'">
+                        ${mediaHtml}
                         <p class="post-caption">${post.description}</p>
                         <p class="post-date">Paylaşım Tarihi: ${timestamp}</p>
                         <div class="post-status">${statusHtml}</div>
@@ -883,35 +891,46 @@
         // Form submit handle et
         document.getElementById('uploadForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            const fileInput = document.getElementById('carImage');
+            const fileInput = document.getElementById('carMedia');
             const description = document.getElementById('carDescription').value;
             const forSale = document.getElementById('forSale').checked;
             const forTrade = document.getElementById('forTrade').checked;
 
             if (fileInput.files && fileInput.files[0]) {
-                const reader = new FileReader();
-                reader.onload = async function(e) {
-                    try {
-                        const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
-                        const username = userDoc.exists() ? userDoc.data().username : 'Anonim';
-                        await addDoc(collection(db, 'carPosts'), {
-                            image: e.target.result,
-                            description: description,
-                            forSale: forSale,
-                            forTrade: forTrade,
-                            likes: [],
-                            comments: [],
-                            timestamp: Timestamp.now(),
-                            username: username,
-                            userId: currentUser.uid
-                        });
-                        loadPosts(currentSort);
-                        closeUploadModal();
-                    } catch (error) {
-                        console.error('Post hatası:', error);
-                    }
-                };
-                reader.readAsDataURL(fileInput.files[0]);
+                const file = fileInput.files[0];
+                const fileExt = file.name.split('.').pop().toLowerCase();
+                const mediaType = file.type.startsWith('image') ? 'image' : 'video';
+                const fileName = `${currentUser.uid}/${Date.now()}.${fileExt}`;
+                const storageRef = ref(storage, fileName);
+
+                try {
+                    // Upload to Storage
+                    await uploadBytes(storageRef, file);
+                    const url = await getDownloadURL(storageRef);
+
+                    // Get username
+                    const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
+                    const username = userDoc.exists() ? userDoc.data().username : 'Anonim';
+
+                    // Save to Firestore
+                    await addDoc(collection(db, 'carPosts'), {
+                        image: url,
+                        mediaType: mediaType,
+                        description: description,
+                        forSale: forSale,
+                        forTrade: forTrade,
+                        likes: [],
+                        comments: [],
+                        timestamp: Timestamp.now(),
+                        username: username,
+                        userId: currentUser.uid
+                    });
+                    loadPosts(currentSort);
+                    closeUploadModal();
+                } catch (error) {
+                    console.error('Yükleme hatası:', error);
+                    alert('Medya yüklenirken hata oluştu: ' + error.message);
+                }
             }
         });
 
