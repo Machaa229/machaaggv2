@@ -288,7 +288,6 @@
             height: 100%;
             background: rgba(0,0,0,0.8);
             z-index: 1001;
-            display: flex;
             align-items: center;
             justify-content: center;
         }
@@ -311,6 +310,7 @@
             padding: 10px 20px;
             border-radius: 8px;
             cursor: pointer;
+            margin: 5px;
         }
         .footer {
             margin-top: auto;
@@ -338,7 +338,8 @@
     <div class="menu-toggle" onclick="toggleContactMenu()">...</div>
     <div class="theme-toggle" onclick="toggleTheme()">🌙</div>
     <div class="contact-menu" id="contactMenu">
-        <span onclick="showComingSoon()">İletişim</span>
+        <span onclick="openTelegram()">Telegram</span>
+        <span onclick="showWhatsAppModal()">WhatsApp</span>
     </div>
     <h1>Machaa CPM</h1>
     <p class="subtitle">Car Parking Multiplayer için araçlar ve scriptler. Bu web sitesi şu an test aşamasındadır yakında daha fazla özellik gelecektir</p>
@@ -367,6 +368,14 @@
             <button onclick="closeAboutModal()">Kapat</button>
         </div>
     </div>
+    <div id="whatsappModal" class="modal">
+        <div class="modal-content">
+            <h2>WhatsApp İletişim</h2>
+            <p>Telefon: +98 992 331 8558</p>
+            <button onclick="openWhatsApp()">Mesaj Gönder</button>
+            <button onclick="closeWhatsAppModal()">Kapat</button>
+        </div>
+    </div>
     <footer class="footer">
         <p>&copy; 2025 Machaa CPM. Tüm hakları saklıdır. | <i class="fas fa-heart" style="color: #4a90e2;"></i> xAI ile geliştirildi</p>
     </footer>
@@ -377,9 +386,22 @@
             menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
         }
 
-        function showComingSoon() {
-            alert('Yakında gelecek :)');
+        function openTelegram() {
+            window.open('https://t.me/+9779700722498', '_blank');
             document.getElementById('contactMenu').style.display = 'none';
+        }
+
+        function showWhatsAppModal() {
+            document.getElementById('whatsappModal').style.display = 'flex';
+            document.getElementById('contactMenu').style.display = 'none';
+        }
+
+        function closeWhatsAppModal() {
+            document.getElementById('whatsappModal').style.display = 'none';
+        }
+
+        function openWhatsApp() {
+            window.open('https://wa.me/989923318558', '_blank');
         }
 
         function showInstallation() {
